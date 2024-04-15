@@ -1,13 +1,14 @@
 
 import './App.css';
-import Div from './Div';
 import DatabaseTestReadButton from "./DatabaseTestReadButton";
+import TestBarChart from "./TestBarChart";
+import React from "react";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Div></Div>
+          <TestBarChart></TestBarChart>
           <DatabaseTestReadButton></DatabaseTestReadButton>
       </header>
     </div>
