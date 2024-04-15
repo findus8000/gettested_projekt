@@ -6,7 +6,7 @@ const DatabaseTestReadButton = () => {
     const [data,set] = useState(null);
 
     const handleClick = () => {
-        axios.get('http://localhost:8080/api/getAllPatientGenders')
+        axios.get('http://localhost:8080/api/country/getAll')
             .then(response => {
                 console.log(response.data); // Log the response from the backend
                 const names = response.data.map(entity => entity.name);

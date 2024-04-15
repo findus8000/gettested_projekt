@@ -1,6 +1,6 @@
 
 
-package kth.gettested;
+package kth.gettested.modules;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

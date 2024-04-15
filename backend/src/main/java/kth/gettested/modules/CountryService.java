@@ -1,4 +1,4 @@
-package kth.gettested;
+package kth.gettested.modules;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,14 +6,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MyService {
+public class CountryService {
 
-    private final MyDatabase repository;
+    private final CountryRepository repository;
 
     @Autowired
-    public MyService(MyDatabase repository) {
+    public CountryService(CountryRepository repository) {
         this.repository = repository;
-        readFromDatabase();
+        readAllCountry();
     }
 
   /*  public void readFromDatabase() {
@@ -25,7 +25,7 @@ public class MyService {
         //entities.forEach(System.out::println);
     }
    */
-    public List<Country> readFromDatabase() {
+    public List<Country> readAllCountry() {
         return repository.findAll();
     }
 }

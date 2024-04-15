@@ -1,4 +1,4 @@
-package kth.gettested;
+package kth.gettested.modules;
 
 public class Results {
     private String name;
