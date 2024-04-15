@@ -1,5 +1,7 @@
-package kth.gettested.modules;
+package kth.gettested.modules.country;
 
+import kth.gettested.modules.country.Country;
+import kth.gettested.modules.country.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

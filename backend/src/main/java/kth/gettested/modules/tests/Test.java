@@ -1,4 +1,4 @@
-package kth.gettested.modules;
+package kth.gettested.modules.tests;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

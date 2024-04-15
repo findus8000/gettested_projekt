@@ -6,16 +6,14 @@ const DatabaseTestReadButton = () => {
     const [data,set] = useState(null);
 
     const handleClick = () => {
-        axios.get('http://localhost:8080/api/country/getAll')
+        axios.get('http://localhost:8080/api/reports/getAll')
             .then(response => {
-                console.log(response.data); // Log the response from the backend
-                const names = response.data.map(entity => entity.name);
-                set(names.join(", "));
-                // Handle the response data as needed
+               // console.log(response.data);
+                const results = response.data.map(entity => entity.results);
+                console.log(results);
             })
             .catch(error => {
                 console.error('Error:', error);
-                // Handle error if necessary
             });
     };
 

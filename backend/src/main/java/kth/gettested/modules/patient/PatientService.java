@@ -1,7 +1,9 @@
 
 
-package kth.gettested.modules;
+package kth.gettested.modules.patient;
 
+import kth.gettested.modules.patient.Patient;
+import kth.gettested.modules.patient.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

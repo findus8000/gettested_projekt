@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { getCountries } from './Controller';
 
 
-const data = getCountries();
-
 function TestBarChart () {
+    const [data, set] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            const result = await getCountries(); // Assuming getCountries becomes async
+            set(result);
+        }
+        fetchData();
+    }, []);
+
     return (
             <BarChart
                 width={500}
@@ -22,8 +30,7 @@ function TestBarChart () {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="pv" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-                <Bar dataKey="uv" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+                <Bar dataKey="value" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
             </BarChart>
     );
 }

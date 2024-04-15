@@ -1,4 +1,5 @@
-package kth.gettested.modules;
+package kth.gettested.modules.country;
+import kth.gettested.modules.country.Country;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

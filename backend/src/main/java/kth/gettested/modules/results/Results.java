@@ -1,16 +1,13 @@
-package kth.gettested.modules;
+package kth.gettested.modules.results;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class Results {
     private String name;
     private String value;
 
 
-    public Results() {}
-
-    public Results(String name, String value) {
-        this.name = name;
-        this.value = value;
-    }
 
     public String getName() {
         return name;
