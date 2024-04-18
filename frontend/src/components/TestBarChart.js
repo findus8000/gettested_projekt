@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { getCountries } from './Controller';
+import { getAllReports } from '../api/Controller';
 
 
 function TestBarChart () {
@@ -8,7 +8,7 @@ function TestBarChart () {
 
     useEffect(() => {
         async function fetchData() {
-            const result = await getCountries(); // Assuming getCountries becomes async
+            const result = await getAllReports();
             set(result);
         }
         fetchData();

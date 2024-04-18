@@ -1,17 +1,15 @@
-
-import './App.css';
-import DatabaseTestReadButton from "./DatabaseTestReadButton";
-import TestBarChart from "./TestBarChart";
-import React from "react";
+import { Route, Switch, Router } from 'wouter';
+import Statistics from "./pages/statistics/Statistics";
+import Landing from "./pages/landing/Landing";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-          <TestBarChart></TestBarChart>
-          <DatabaseTestReadButton></DatabaseTestReadButton>
-      </header>
-    </div>
+      <Router>
+          <Switch>
+              <Route path="/" component={Landing} />
+              <Route path="/statistics" component={Statistics} />
+          </Switch>
+      </Router>
   );
 }
 

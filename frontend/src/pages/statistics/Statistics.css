@@ -1,0 +1,40 @@
+#statisticspage{
+    text-align: left;
+    position: fixed; /* or 'absolute' if you prefer */
+    top: 0;
+    left: 0;
+    width: 100vw; /* viewport width */
+    height: 100vh; /* viewport height */
+    background-color: #3a3a3a; /* Example background color */
+    z-index: 1000; /* Ensures it covers other content */
+}
+
+#panels{
+    display: flex;
+    padding: 30px;
+    gap: 20px;
+}
+
+#leftdiv{
+    width: 45vw;
+    height: 80vh;
+    background-color: #bdbdbd;
+    border-radius: 20px;
+    text-align: center;
+}
+
+#rightdiv{
+    width: 45vw;
+    height: 80vh;
+    background-color: #484848;
+    border-radius: 20px;
+    text-align: center;
+}
+
+#barchart{
+    background-color: #ffffff;
+}
+
+#values{
+    text-align: left;
+}
