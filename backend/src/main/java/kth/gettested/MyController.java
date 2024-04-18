@@ -6,13 +6,15 @@ import kth.gettested.modules.patient.Patient;
 import kth.gettested.modules.patient.PatientService;
 import kth.gettested.modules.reports.Reports;
 import kth.gettested.modules.reports.ReportsService;
+import kth.gettested.modules.tests.TestLookupService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
@@ -23,12 +25,14 @@ public class MyController {
 
     private final PatientService patientService;
     private final ReportsService reportsService;
+    private final TestLookupService testLookupService;
 
     @Autowired
-    public MyController(CountryService countryService, PatientService patientService, ReportsService reportsService) {
+    public MyController(CountryService countryService, PatientService patientService, ReportsService reportsService, TestLookupService testLookupService) {
         this.countryService = countryService;
         this.patientService = patientService;
         this.reportsService = reportsService;
+        this.testLookupService = testLookupService;
     }
 
     @GetMapping("/country/getAll")
@@ -41,6 +45,33 @@ public class MyController {
     public ResponseEntity<List<Patient>> getAllPatientGenders() {
         List<Patient> patientGenders = patientService.getAllPatientGenders();
         return new ResponseEntity<>(patientGenders, HttpStatus.OK);
+    }
+    @PostMapping("/statistics/test3")
+    public ResponseEntity<List<Reports>> getPatientStatisticsForTest(@RequestBody(required = false) String data) {
+        ObjectId id =  testLookupService.getTestIdByName("Allergy & Intolerance Test (78 items)");
+        if (data != null) { // Check if data is provided in the request body
+            String decodedTextValue = URLDecoder.decode(data, StandardCharsets.UTF_8);
+            if (decodedTextValue.endsWith("=")) {
+                decodedTextValue = decodedTextValue.substring(0, decodedTextValue.length() - 1);
+            }
+            System.out.println("Received decoded text value from frontend: " + decodedTextValue);
+            id = testLookupService.getTestIdByName(decodedTextValue);
+        }
+        List<Reports> reportsByTestId = reportsService.getReportsByTestId(id);
+        return new ResponseEntity<>(reportsByTestId, HttpStatus.OK);
+    }
+    @GetMapping("/statistics/test")
+    public ResponseEntity<List<Reports>> getPatientStatisticsForTest(){
+        ObjectId id =  testLookupService.getTestIdByName("Food Intolerance (80 items)");
+        List<Reports> reportsByTestId = reportsService.getReportsByTestId(id);
+        return new ResponseEntity<>(reportsByTestId, HttpStatus.OK);
+    }
+    @GetMapping("/statistics/test2")
+    public ResponseEntity<List<Reports>> getPatientStatisticsForTestAndGender(){
+        ObjectId id =  testLookupService.getTestIdByName("Vitamin D Test");
+        List<Patient> patients = patientService.getPatientByGender("Male");
+        List<Reports> reportsByTestId = reportsService.getReportsByTestIdAndPatientGender(id,"Male");
+        return new ResponseEntity<>(reportsByTestId, HttpStatus.OK);
     }
 
     @GetMapping("/reports/getAll")

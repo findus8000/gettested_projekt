@@ -10,12 +10,7 @@ public class Patient {
     private String id;
     private String gender;
 
-    public Patient() {
-    }
 
-    public Patient(String gender) {
-        this.gender = gender;
-    }
 
     public String getId() {
         return id;
@@ -33,11 +28,4 @@ public class Patient {
         this.gender = gender;
     }
 
-    @Override
-    public String toString() {
-        return "Patient{" +
-                "id='" + id + '\'' +
-                ", gender='" + gender + '\'' +
-                '}';
-    }
 }

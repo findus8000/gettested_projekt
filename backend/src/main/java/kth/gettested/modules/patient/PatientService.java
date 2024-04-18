@@ -2,8 +2,6 @@
 
 package kth.gettested.modules.patient;
 
-import kth.gettested.modules.patient.Patient;
-import kth.gettested.modules.patient.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +23,9 @@ public class PatientService {
     public List<Patient> getAllPatientGenders() {
         return patientRepository.findAll();
     }
+
+    public List<Patient> getPatientByGender(String gender){
+        return patientRepository.findByTestId(gender);
+    };
 }
 
