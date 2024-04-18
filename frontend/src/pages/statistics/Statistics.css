@@ -1,40 +1,18 @@
-#statisticspage{
-    text-align: left;
-    position: fixed; /* or 'absolute' if you prefer */
-    top: 0;
-    left: 0;
-    width: 100vw; /* viewport width */
-    height: 100vh; /* viewport height */
-    background-color: #3a3a3a; /* Example background color */
-    z-index: 1000; /* Ensures it covers other content */
-}
-
-#panels{
+#selectorContainer {
     display: flex;
-    padding: 30px;
-    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Space between each dropdown */
+    margin: 20px 0;
 }
 
-#leftdiv{
-    width: 45vw;
-    height: 80vh;
-    background-color: #bdbdbd;
-    border-radius: 20px;
-    text-align: center;
-}
-
-#rightdiv{
-    width: 45vw;
-    height: 80vh;
-    background-color: #484848;
-    border-radius: 20px;
-    text-align: center;
-}
-
-#barchart{
-    background-color: #ffffff;
-}
-
-#values{
-    text-align: left;
+.selectDropdown {
+    font-size: 1.2em;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: #fff; /* White text for visibility */
+    background-color: #555; /* Dark background */
+    border: none;
+    border-radius: 5px;
+    width: 200px; /* Ensures all dropdowns are the same width */
 }

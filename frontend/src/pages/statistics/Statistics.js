@@ -8,13 +8,25 @@ function Statistics() {
     return (
         <div id="statisticspage">
             <Link href="/">Back</Link>
-                <select id="testdropdown">
-                    <option value="" selected="selected">D-vitamin</option>
-                    <option value="" selected="selected">C-vitamin</option>
-                    <option value="" selected="selected">Select test</option>
+            <div id="selectorContainer">
+                <select className="selectDropdown" id="testTypeDropdown">
+                    <option value="D-vitamin">D-vitamin</option>
+                    <option value="C-vitamin">C-vitamin</option>
+                    <option disabled>Select test</option>
                 </select>
+                <select className="selectDropdown" id="seasonDropdown">
+                    <option value="Spring">Spring</option>
+                    <option value="Summer">Summer</option>
+                    <option value="Autumn">Autumn</option>
+                    <option value="Winter">Winter</option>
+                </select>
+                <select className="selectDropdown" id="genderDropdown">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option disabled>Select gender</option>
+                </select>
+            </div>
             <div id="panels">
-
                 <div id="leftdiv">
                     General<br/>
                     <div id="values">
@@ -22,30 +34,13 @@ function Statistics() {
                         Mean:<br/>
                         Standardeviation:
                     </div>
-
                     <div id="barchart"><TestBarChart></TestBarChart></div>
                 </div>
-
-
                 <div id="rightdiv">
                     Specific<br/>
-                    <select id="testdropdown">
-                        <option value="" selected="selected">Male</option>
-                        <option value="" selected="selected">Female</option>
-                        <option value="" selected="selected">Select gender</option>
-                    </select>
-
-                    <select id="testdropdown">
-                        <option value="" selected="selected">69</option>
-                        <option value="" selected="selected">420</option>
-                        <option value="" selected="selected">Select age</option>
-                    </select>
                 </div>
             </div>
-
-
         </div>
-
     );
 }
 
