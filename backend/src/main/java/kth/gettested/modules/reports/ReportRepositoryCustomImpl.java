@@ -2,13 +2,11 @@ package kth.gettested.modules.reports;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.LookupOperation;
-import org.springframework.data.mongodb.core.aggregation.MatchOperation;
-import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
+import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -65,5 +63,19 @@ public class ReportRepositoryCustomImpl implements ReportRepositoryCustom {
 
         return mongoOperations.aggregate(aggregation, "reports", Reports.class).getMappedResults();
     }
+
+    @Override
+    public List<Reports> getReportsByTestIdAndDateRange(ObjectId testId, Date startDate, Date endDate) {
+        MatchOperation matchStage = Aggregation.match(
+                Criteria.where("test").is(testId)
+                        .and("sent").gte(startDate).lte(endDate)
+        );
+
+        Aggregation aggregation = Aggregation.newAggregation(matchStage);
+        AggregationResults<Reports> results = mongoOperations.aggregate(aggregation, "reports", Reports.class);
+        return results.getMappedResults();
+    }
+
+
 }
 

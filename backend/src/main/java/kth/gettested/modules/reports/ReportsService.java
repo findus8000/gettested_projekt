@@ -3,6 +3,8 @@ package kth.gettested.modules.reports;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,7 +27,18 @@ public class ReportsService {
         return reportRepositoryCustom.getReportsByTestNameAndPatientGender(testId, gender);
     }
 
+
+
     public List<Reports> getReportsByTestId(ObjectId testId) {
         return reportsRepository.findByTestId(testId);
     }
+
+
+    // ReportsService.java
+    public List<Reports> getReportsByTestIdAndDateRange(ObjectId testId, Date startDate, Date endDate) {
+        return reportRepositoryCustom.getReportsByTestIdAndDateRange(testId, startDate, endDate);
+    }
+
 }
+
+

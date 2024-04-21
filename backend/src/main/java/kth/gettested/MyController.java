@@ -9,12 +9,14 @@ import kth.gettested.modules.reports.ReportsService;
 import kth.gettested.modules.tests.TestLookupService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -34,6 +36,8 @@ public class MyController {
         this.reportsService = reportsService;
         this.testLookupService = testLookupService;
     }
+
+
 
     @GetMapping("/country/getAll")
     public ResponseEntity<List<Country>> readAllCountry() {
@@ -66,6 +70,8 @@ public class MyController {
         List<Reports> reportsByTestId = reportsService.getReportsByTestId(id);
         return new ResponseEntity<>(reportsByTestId, HttpStatus.OK);
     }
+
+
     @GetMapping("/statistics/test2")
     public ResponseEntity<List<Reports>> getPatientStatisticsForTestAndGender(){
         ObjectId id =  testLookupService.getTestIdByName("Vitamin D Test");
@@ -79,4 +85,17 @@ public class MyController {
         List<Reports> allReports = reportsService.getAllReports();
         return new ResponseEntity<>(allReports, HttpStatus.OK);
     }
+
+    // MyController.java
+    @GetMapping("/reports/byTestIdAndDateRange")
+    public ResponseEntity<List<Reports>> getReportsByTestIdAndDateRange(
+            @RequestParam String testName,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
+
+        ObjectId testId = testLookupService.getTestIdByName(testName);
+        List<Reports> reports = reportsService.getReportsByTestIdAndDateRange(testId, startDate, endDate);
+        return reports.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(reports, HttpStatus.OK);
+    }
+
 }
