@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { getAllReports } from '../api/Controller';
+import { getAllReportsAfterDates } from '../api/Controller';
 import { ResizableBox } from 'react-resizable';
 import 'react-resizable/css/styles.css';
 
-function TestBarChart() {
+function DateBarChart() {
     const [data, setData] = useState([]);
     const [startDate, setStartDate] = useState('2021-01-01');
     const [endDate, setEndDate] = useState('2021-12-31');
     const [testName, setTestName] = useState('Allergy & Intolerance Test (78 items)'); // Default test
+    const [param, setParam] = useState('');
+    const [textFieldValue, setTextFieldValue] = useState('');
+
+    const handleChange = (event) => {
+        setTextFieldValue(event.target.value);
+    };
 
     useEffect(() => {
         async function fetchData() {
-            const results = await getAllReports(testName, startDate, endDate);
+
+            const results = await getAllReportsAfterDates(testName, startDate, endDate);
             setData(results);
         }
         fetchData();
@@ -57,7 +64,8 @@ function TestBarChart() {
                 </ResponsiveContainer>
             </ResizableBox>
         </div>
-    );
+
+    )
 }
 
-export default TestBarChart;
+export default DateBarChart;

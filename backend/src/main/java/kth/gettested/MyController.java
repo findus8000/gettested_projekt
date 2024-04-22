@@ -50,33 +50,27 @@ public class MyController {
         List<Patient> patientGenders = patientService.getAllPatientGenders();
         return new ResponseEntity<>(patientGenders, HttpStatus.OK);
     }
-    @PostMapping("/statistics/test3")
-    public ResponseEntity<List<Reports>> getPatientStatisticsForTest(@RequestBody(required = false) String data) {
-        ObjectId id =  testLookupService.getTestIdByName("Allergy & Intolerance Test (78 items)");
-        if (data != null) { // Check if data is provided in the request body
-            String decodedTextValue = URLDecoder.decode(data, StandardCharsets.UTF_8);
-            if (decodedTextValue.endsWith("=")) {
-                decodedTextValue = decodedTextValue.substring(0, decodedTextValue.length() - 1);
-            }
-            System.out.println("Received decoded text value from frontend: " + decodedTextValue);
-            id = testLookupService.getTestIdByName(decodedTextValue);
-        }
+    @GetMapping("/statistics/test3")
+    public ResponseEntity<List<Reports>> getPatientStatisticsForTest(@RequestParam(name = "query",required = false, defaultValue = "Food Intolerance (40 items)") String query) {
+        ObjectId id =  testLookupService.getTestIdByName(query);
         List<Reports> reportsByTestId = reportsService.getReportsByTestId(id);
         return new ResponseEntity<>(reportsByTestId, HttpStatus.OK);
     }
     @GetMapping("/statistics/test")
     public ResponseEntity<List<Reports>> getPatientStatisticsForTest(){
-        ObjectId id =  testLookupService.getTestIdByName("Food Intolerance (80 items)");
+        ObjectId id =  testLookupService.getTestIdByName("Food Intolerance (40 items)");
         List<Reports> reportsByTestId = reportsService.getReportsByTestId(id);
         return new ResponseEntity<>(reportsByTestId, HttpStatus.OK);
     }
 
 
-    @GetMapping("/statistics/test2")
-    public ResponseEntity<List<Reports>> getPatientStatisticsForTestAndGender(){
-        ObjectId id =  testLookupService.getTestIdByName("Vitamin D Test");
-        List<Patient> patients = patientService.getPatientByGender("Male");
-        List<Reports> reportsByTestId = reportsService.getReportsByTestIdAndPatientGender(id,"Male");
+
+    @GetMapping("/statistics/testAndGender")
+    public ResponseEntity<List<Reports>> getPatientStatisticsForTestAndGender(@RequestParam(name = "query",required = false, defaultValue = "Food Intolerance (40 items)") String query,
+                                                                              @RequestParam(name = "gender",required = false, defaultValue = "Male") String gender) {
+        System.out.println(query +" "+gender);
+        ObjectId id =  testLookupService.getTestIdByName(query);
+        List<Reports> reportsByTestId = reportsService.getReportsByTestIdAndPatientGender(id,gender);
         return new ResponseEntity<>(reportsByTestId, HttpStatus.OK);
     }
 

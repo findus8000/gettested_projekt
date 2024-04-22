@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {setPost} from "./Controller";
-import TestBarChart from "./TestBarChart";
+import DateBarChart from "./DateBarChart";
 
 const SendTextButton = () => {
     const [textFieldValue, setTextFieldValue] = useState('');

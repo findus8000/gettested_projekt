@@ -1,10 +1,10 @@
-import './Statistics.css';
+import './StatisticsDate.css';
 import DatabaseTestReadButton from "../../components/DatabaseTestReadButton";
-import TestBarChart from "../../components/TestBarChart";
+import DateBarChart from "../../components/DateBarChart";
 import React from "react";
 import { Link } from 'wouter';
 
-function Statistics() {
+function StatisticsDate() {
     return (
         <div id="statisticspage">
             <Link href="/">Back</Link>
@@ -34,7 +34,7 @@ function Statistics() {
                         Mean:<br/>
                         Standardeviation:
                     </div>
-                    <div id="barchart"><TestBarChart></TestBarChart></div>
+                    <div id="barchart"><DateBarChart></DateBarChart></div>
                 </div>
                 <div id="rightdiv">
                     Specific<br/>
@@ -44,4 +44,4 @@ function Statistics() {
     );
 }
 
-export default Statistics;
+export default StatisticsDate;
