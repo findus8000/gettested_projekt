@@ -1,6 +1,7 @@
 import React, {useState} from "react";
-
 import axios from "axios";
+import {type} from "@testing-library/user-event/dist/type";
+import {meanFromResultsArr} from "../api/Controller";
 
 const TestButton = () => {
     const [textFieldValue, setTextFieldValue] = useState('');
@@ -12,7 +13,9 @@ const TestButton = () => {
     const getData = async () => {
         axios.get('http://localhost:8080/api/statistics/testAndGender?gender=Male')
             .then(response => {
-                console.log(response.data);
+                const results = response.data.map(entity => entity.results).filter(r => r);
+
+               // console.log(meanFromResultsArr(results));
 
             })
             .catch(error => {

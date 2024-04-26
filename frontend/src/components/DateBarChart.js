@@ -8,13 +8,11 @@ function DateBarChart() {
     const [data, setData] = useState([]);
     const [startDate, setStartDate] = useState('2021-01-01');
     const [endDate, setEndDate] = useState('2021-12-31');
-    const [testName, setTestName] = useState('Allergy & Intolerance Test (78 items)'); // Default test
-    const [param, setParam] = useState('');
-    const [textFieldValue, setTextFieldValue] = useState('');
+    const [testName, setTestName] = useState('Allergy & Intolerance Test (78 items)');
+    const [gender, setGender] = useState('Select gender');
 
-    const handleChange = (event) => {
-        setTextFieldValue(event.target.value);
-    };
+
+
 
     useEffect(() => {
         async function fetchData() {
@@ -23,18 +21,12 @@ function DateBarChart() {
             setData(results);
         }
         fetchData();
-    }, [testName, startDate, endDate]);
+    }, [testName, startDate, endDate, gender]);
 
     return (
         <div style={{ width: '100%', overflowX: 'hidden' }}>
             <div>
-                <label>
-                    Select Test:
-                    <select value={testName} onChange={e => setTestName(e.target.value)}>
-                        <option value="Allergy & Intolerance Test (78 items)">Allergy & Intolerance Test (78 items)</option>
-                        <option value="Food Intolerance (80 items)">Food Intolerance (80 items)</option>
-                    </select>
-                </label>
+
                 <label>
                     Start Date:
                     <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
@@ -62,7 +54,21 @@ function DateBarChart() {
                         <Bar dataKey="value" fill="#82ca9d" />
                     </BarChart>
                 </ResponsiveContainer>
+
             </ResizableBox>
+            <label>
+                <select value={testName} onChange={e => setTestName(e.target.value)}>
+                    <option value="Allergy & Intolerance Test (78 items)">Allergy & Intolerance Test (78 items)</option>
+                    <option value="Food Intolerance (80 items)">Food Intolerance (80 items)</option>
+                </select>
+            </label>
+            <label>
+                <select value={gender} onChange={e => setGender(e.target.value)}>
+                    <option value="Select gender">Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </label>
         </div>
 
     )

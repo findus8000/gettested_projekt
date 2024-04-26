@@ -1,5 +1,4 @@
 import './StatisticsDate.css';
-import DatabaseTestReadButton from "../../components/DatabaseTestReadButton";
 import DateBarChart from "../../components/DateBarChart";
 import React from "react";
 import { Link } from 'wouter';
@@ -7,7 +6,7 @@ import { Link } from 'wouter';
 function StatisticsDate() {
     return (
         <div id="statisticspage">
-            <Link href="/">Back</Link>
+            <Link href="/"><img id="linkback" src="getTested-logo-small.png" alt="Gettested Logo"/></Link>
             <div id="selectorContainer">
                 <select className="selectDropdown" id="testTypeDropdown">
                     <option value="D-vitamin">D-vitamin</option>
@@ -28,16 +27,20 @@ function StatisticsDate() {
             </div>
             <div id="panels">
                 <div id="leftdiv">
-                    General<br/>
+                    <p id="bold">General</p>   <br/>
                     <div id="values">
                         Average:<br/>
                         Mean:<br/>
-                        Standardeviation:
                     </div>
                     <div id="barchart"><DateBarChart></DateBarChart></div>
                 </div>
                 <div id="rightdiv">
-                    Specific<br/>
+                    <p id="bold">Specific</p>  <br/>
+                    <div id="values">
+                        Average:<br/>
+                        Mean:<br/>
+                    </div>
+                    <div id="barchart"><DateBarChart></DateBarChart></div>
                 </div>
             </div>
         </div>

@@ -1,10 +1,9 @@
 #statisticspage{
     text-align: left;
-    position: fixed; /* or 'absolute' if you prefer */
     top: 0;
     left: 0;
-    width: 100vw; /* viewport width */
-    height: 100vh; /* viewport height */
+    width: 100%; /* viewport width */
+    min-height: 100vh;
     background-color: #3a3a3a; /* Example background color */
     z-index: 1000; /* Ensures it covers other content */
 }
@@ -12,29 +11,35 @@
 #panels{
     display: flex;
     padding: 30px;
-    gap: 20px;
+    gap: 40px;
 }
 
 #leftdiv{
     width: 45vw;
     height: 80vh;
-    background-color: #bdbdbd;
+    background-color: #3a3a3a;
     border-radius: 20px;
     text-align: center;
+    border: 5px solid #555;
+
 }
 
 #rightdiv{
     width: 45vw;
     height: 80vh;
-    background-color: #484848;
+    background-color: #3a3a3a;
     border-radius: 20px;
     text-align: center;
+    border: 5px solid #555;
 }
 
 #barchart{
-    background-color: #ffffff;
+    padding-top: 15px;
+    background-color: white;
+    border-radius: 10px;
 }
 
 #values{
     text-align: left;
+    padding: 4px;
 }

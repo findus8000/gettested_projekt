@@ -3,26 +3,19 @@ import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 import { getAllReportsAfterGender } from '../api/Controller';
 
 
-function TestBarChart () {
+function TestBarChart ({testType}) {
     const [data, set] = useState([]);
-    const [param, setParam] = useState('');
-    const [textFieldValue, setTextFieldValue] = useState('');
-
-    const handleChange = (event) => {
-        setTextFieldValue(event.target.value);
-    };
 
     useEffect(() => {
         async function fetchData() {
-            const result = await getAllReportsAfterGender(param);
+
+            const result = await getAllReportsAfterGender(testType);
             set(result);
         }
         fetchData();
-    }, [param]);
+    }, [testType]);
 
-    const sendDataToChart = async () => {
-        setParam(textFieldValue);
-    };
+
 
     return (
         <ResponsiveContainer width="100%" height={400}>
@@ -42,8 +35,6 @@ function TestBarChart () {
                 <Legend verticalAlign="top"/>
                 <Bar dataKey="value" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple"/>}/>
             </BarChart>
-            <input type="text" value={textFieldValue} onChange={handleChange}/>
-            <button onClick={sendDataToChart}>Send Data</button>
         </ResponsiveContainer>
     );
 }
