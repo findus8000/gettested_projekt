@@ -68,7 +68,6 @@ public class MyController {
     @GetMapping("/statistics/testAndGender")
     public ResponseEntity<List<Reports>> getPatientStatisticsForTestAndGender(@RequestParam(name = "query",required = false, defaultValue = "Food Intolerance (40 items)") String query,
                                                                               @RequestParam(name = "gender",required = false, defaultValue = "Male") String gender) {
-        System.out.println(query +" "+gender);
         ObjectId id =  testLookupService.getTestIdByName(query);
         List<Reports> reportsByTestId = reportsService.getReportsByTestIdAndPatientGender(id,gender);
         return new ResponseEntity<>(reportsByTestId, HttpStatus.OK);
@@ -80,7 +79,7 @@ public class MyController {
         return new ResponseEntity<>(allReports, HttpStatus.OK);
     }
 
-    // MyController.java
+
     @GetMapping("/reports/byTestIdAndDateRange")
     public ResponseEntity<List<Reports>> getReportsByTestIdAndDateRange(
             @RequestParam String testName,
@@ -89,6 +88,17 @@ public class MyController {
 
         ObjectId testId = testLookupService.getTestIdByName(testName);
         List<Reports> reports = reportsService.getReportsByTestIdAndDateRange(testId, startDate, endDate);
+        return reports.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(reports, HttpStatus.OK);
+    }
+
+    @GetMapping("/reports/byTestIdAndDateRangeAndGender")
+    public ResponseEntity<List<Reports>> getReportsByTestIdAndDateRangeAndGender(
+            @RequestParam String testName,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate, @RequestParam(name = "gender",required = false, defaultValue = "All") String gender) {
+
+        ObjectId testId = testLookupService.getTestIdByName(testName);
+        List<Reports> reports = reportsService.getReportsByTestIdAndDateAndGender(testId,startDate,endDate,gender);
         return reports.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(reports, HttpStatus.OK);
     }
 

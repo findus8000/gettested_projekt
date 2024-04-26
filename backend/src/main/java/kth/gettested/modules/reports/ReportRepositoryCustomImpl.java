@@ -36,23 +36,6 @@ public class ReportRepositoryCustomImpl implements ReportRepositoryCustom {
         return results.getMappedResults();
     }
 
-    @Override
-    public List<Reports> getReportsByTestName(String testId) {
-        LookupOperation lookupTest = LookupOperation.newLookup()
-                .from("tests")
-                .localField("test")
-                .foreignField("_id")
-                .as("test");
-
-        MatchOperation matchOperation = match(Criteria.where("test._id").is(testId));
-
-        Aggregation aggregation = newAggregation(
-                lookupTest,
-                matchOperation
-        );
-
-        return mongoTemplate.aggregate(aggregation, "reports", Reports.class).getMappedResults();
-    }
 
     @Override
     public List<Reports> getReportsByTestIdAndDateRange(ObjectId testId, Date startDate, Date endDate) {
@@ -66,6 +49,27 @@ public class ReportRepositoryCustomImpl implements ReportRepositoryCustom {
         return results.getMappedResults();
     }
 
+    @Override
+    public List<Reports> getReportsByTestNameAndDateAndPatientGender(ObjectId testId, Date startDate, Date endDate, String gender) {
+        Aggregation aggregation;
+
+        if (gender.equals("Male") || gender.equals("Female")) {
+            aggregation = Aggregation.newAggregation(
+                    lookup("patients", "patient", "_id", "patient"),
+                    match(Criteria.where("test").is(testId)
+                            .and("patient.gender").is(gender)
+                            .and("sent").gte(startDate).lte(endDate))
+            );
+        } else {
+            aggregation = Aggregation.newAggregation(
+                    match(Criteria.where("test").is(testId)
+                            .and("sent").gte(startDate).lte(endDate))
+            );
+        }
+
+        AggregationResults<Reports> results = mongoTemplate.aggregate(aggregation, "reports", Reports.class);
+        return results.getMappedResults();
+    }
 
 }
 

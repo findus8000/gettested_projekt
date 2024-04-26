@@ -57,16 +57,57 @@ function meanFromResultsArr(resultsArr){
 
 
 
+function medianComplicated(resultArr){
 
+    const mediansByTestName = {};
 
+    resultArr.forEach((resultArr) => {
+        resultArr.forEach((result) => {
+            const {name, value} = result;
 
-async function getAllReportsAfterDates(testName, startDate, endDate) {
-    try {
-        const response = await axios.get(`http://localhost:8080/api/reports/byTestIdAndDateRange`, {
-            params: { testName, startDate, endDate }
+            // Initialize an array for the test result name if it doesn't exist
+            if (!mediansByTestName[name]) {
+                mediansByTestName[name] = [];
+            }
+            // Push the value to the array for the test result name
+            mediansByTestName[name].push(value);
         });
+    });
+
+    const medians = {};
+
+    Object.entries(mediansByTestName).forEach(([name, values]) => {
+        const sortedValues = values.sort((a, b) => a - b);
+
+        let median;
+
+        if (sortedValues.length === 0) {
+            median = null; // Handle case where there are no valid numeric values
+        } else if (sortedValues.length % 2 === 0) {
+            // Even number of values
+            const midIndex1 = sortedValues.length / 2 - 1;
+            const midIndex2 = midIndex1 + 1;
+            median = (sortedValues[midIndex1] + sortedValues[midIndex2]) / 2;
+        } else {
+            // Odd number of values
+            const midIndex = Math.floor(sortedValues.length / 2);
+            median = sortedValues[midIndex];
+        }
+
+        medians[name] = median;
+    });
+
+    console.log('Medians for each test result:', medians);
+}
+
+
+async function getAllReportsAfterDatesAndGender(testName, startDate, endDate, gender) {
+    try {
+        const response = await axios.get(`http://localhost:8080/api/reports/byTestIdAndDateRangeAndGender`, {
+            params: { testName, startDate, endDate, gender }
+        });
+        console.log(response.data)
         const results = response.data.map(entity => entity.results).filter(r => r);
-        console.log("Data from server:", results);
 
         if (results.length === 0) {
             console.log("No results available in data.");
@@ -75,10 +116,15 @@ async function getAllReportsAfterDates(testName, startDate, endDate) {
 
         const aggregatedResults = results.map(arr =>
             arr.map(result => ({
-                name: result.name || 'Unnamed',
-                value: parseFloat(result.value.replace('<', '').trim())
-            })).filter(result => !isNaN(result.value))
+                name: result.name || 'Unknown',
+                value: result.value !== null && result.value !== undefined
+                    ? parseFloat(result.value.replace(/[<>]/g, '').trim())
+                    : null
+            })).filter(result => result !== null &&  !isNaN(result.value))
         );
+        console.log('Aggregated Results:', aggregatedResults);
+
+        medianComplicated(aggregatedResults);
 
 
 
@@ -86,8 +132,10 @@ async function getAllReportsAfterDates(testName, startDate, endDate) {
             curr.forEach(item => {
                 const existing = acc.find(a => a.name === item.name);
                 if (existing) {
-                    existing.value += item.value;
-                    existing.count++;
+                    if (item.value!=null){
+                        existing.value += item.value;
+                        existing.count++;
+                    }
                 } else {
                     acc.push({ ...item, count: 1 });
                 }
@@ -96,7 +144,8 @@ async function getAllReportsAfterDates(testName, startDate, endDate) {
         }, []).map(item => ({
             name: item.name,
             value: item.value / item.count,
-            amt: 2000
+            amt: 2000,
+            count: item.count
         }));
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -148,4 +197,4 @@ async function getAllReportsAfterGender(query,gender) {
 
 
 
-export { getAllReportsAfterDates,getAllReportsAfterGender, averageFromResultsArr, meanFromResultsArr };
+export { getAllReportsAfterDatesAndGender,  getAllReportsAfterGender,averageFromResultsArr, meanFromResultsArr };

@@ -40,6 +40,10 @@ public class ReportsService {
         return reportRepositoryCustom.getReportsByTestIdAndDateRange(testId, startDate, endDate);
     }
 
+    public List<Reports> getReportsByTestIdAndDateAndGender(ObjectId testId, Date startDate, Date endDate, String gender) {
+        return reportRepositoryCustom.getReportsByTestNameAndDateAndPatientGender(testId,startDate,endDate,gender);
+    }
+
 }
 
 

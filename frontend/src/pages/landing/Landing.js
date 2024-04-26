@@ -1,7 +1,7 @@
 import { Link } from 'wouter';
 import React from "react";
 import './Landing.css';
-import TestButton from "../../components/TestButton";
+
 function Landing() {
     return (
         <div id="landingpage">

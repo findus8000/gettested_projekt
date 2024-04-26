@@ -14,7 +14,4 @@ public interface ReportsRepository extends MongoRepository<Reports, String> {
     @Query("{'test': ?0}")
     List<Reports> findByTestId(ObjectId testId);
 
-    @Query("{'test': ?0, 'sent': {$gte: ?1, $lte: ?2}}")
-    List<Reports> findByTestIdAndDateRange(ObjectId testId, Date startDate, Date endDate);
-
 }
