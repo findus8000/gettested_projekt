@@ -1,0 +1,27 @@
+#selectorContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Space between each dropdown */
+    margin: 20px 0;
+}
+
+.selectDropdown {
+    font-size: 1.2em;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: #fff; /* White text for visibility */
+    background-color: #555; /* Dark background */
+    border: none;
+    border-radius: 5px;
+    width: 200px;
+}
+
+#linkback{
+    padding: 5px;
+}
+
+#bold{
+    font-weight: bold;
+}
+
