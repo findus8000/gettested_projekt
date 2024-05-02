@@ -16,7 +16,6 @@
 
 #leftdiv{
     width: 45vw;
-    height: 80vh;
     background-color: #3a3a3a;
     border-radius: 20px;
     text-align: center;
@@ -34,9 +33,12 @@
 }
 
 #barchart{
-    padding-top: 15px;
     background-color: white;
     border-radius: 10px;
+}
+
+#piechart{
+    padding-left: 165px;
 }
 
 #values{

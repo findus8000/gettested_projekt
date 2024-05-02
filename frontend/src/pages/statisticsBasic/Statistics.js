@@ -4,11 +4,13 @@ import React, {useEffect, useState} from "react";
 import { Link } from 'wouter';
 import OldTestBarChart from "../../components/OldTestBarChart";
 import DateBarChart from "../../components/DateBarChart";
-import {getAllReportsAfterGender, meanFromResultsArr} from "../../api/Controller";
+import {getAllReportsAfterDatesAndGender, getAllReportsAfterGender, meanFromResultsArr} from "../../api/Controller";
 import {type} from "@testing-library/user-event/dist/type";
+import MaleFemaleChart from "../../components/MaleFemaleChart";
+import GenderDistrubutionChart from "../../components/GenderDistrubutionChart";
 
 function Statistics() {
-    const [testType, setTestType] = useState('Allergy & Intolerance Test (78 items)');
+    const [testType, setTestType] = useState('Food Intolerance (80 items)');
     const [testNames, setTestNames] = useState([{name: "Select test"}]);
     const [currentTest, setCurrentTest] = useState('');
     const [currentTestAvg, setCurrentTestAvg] = useState(0);
@@ -18,7 +20,7 @@ function Statistics() {
     useEffect(() => {
         async function fetchData() {
 
-            const result = await getAllReportsAfterGender(testType);
+            const result = await getAllReportsAfterDatesAndGender(testType, '2022-02-01', '2024-02-01');
             setTestNames(result);
         }
         fetchData();
@@ -35,16 +37,17 @@ function Statistics() {
         <div id="statisticspage">
             <Link href="/"><img id="linkback" src="getTested-logo-small.png" alt="Gettested Logo"/></Link>
                 <select id="testdropdown" value={testType} onChange={e => setTestType(e.target.value)}>
-                    <option value="Allergy & Intolerance Test (78 items)">Allergy & Intolerance Test (78 items)</option>
                     <option value="Food Intolerance (80 items)">Food Intolerance (80 items)</option>
+                    <option value="Allergy & Intolerance Test (78 items)">Allergy & Intolerance Test (78 items)</option>
                     <option value="Food Intolerance (40 items)">Food Intolerance (40 items)</option>
                 </select>
             <div id="panels">
 
                 <div id="leftdiv">
                     General<br/>
-
+                    <div id="piechart"><GenderDistrubutionChart testType={testType}></GenderDistrubutionChart></div>
                     <div id="barchart"><OldTestBarChart testType={testType}></OldTestBarChart></div>
+
                 </div>
 
 
@@ -59,9 +62,8 @@ function Statistics() {
 
                     <div id="values">
                         Average: {currentTestAvg}<br/>
-
                     </div>
-
+                    <MaleFemaleChart testType={testType} specificTestType={currentTest}></MaleFemaleChart>
                 </div>
             </div>
 

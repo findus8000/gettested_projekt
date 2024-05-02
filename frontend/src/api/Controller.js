@@ -122,7 +122,7 @@ async function getAllReportsAfterDatesAndGender(testName, startDate, endDate, ge
                     : null
             })).filter(result => result !== null &&  !isNaN(result.value))
         );
-        console.log('Aggregated Results:', aggregatedResults);
+        //console.log('Aggregated Results:', aggregatedResults);
 
         medianComplicated(aggregatedResults);
 
@@ -195,6 +195,35 @@ async function getAllReportsAfterGender(query,gender) {
     }
 }
 
+async function getAllReportsAfterDatesAndGenderRaw(testName, startDate, endDate, gender) {
+    try {
+        const response = await axios.get(`http://localhost:8080/api/reports/byTestIdAndDateRangeAndGender`, {
+            params: { testName, startDate, endDate, gender }
+        });
+        console.log(response.data)
+        const results = response.data.map(entity => entity.results).filter(r => r);
+
+        if (results.length === 0) {
+            console.log("No results available in data.");
+            return [];
+        }
+
+        const aggregatedResults = results.map(arr =>
+            arr.map(result => ({
+                name: result.name || 'Unknown',
+                value: result.value !== null && result.value !== undefined
+                    ? parseFloat(result.value.replace(/[<>]/g, '').trim())
+                    : null
+            })).filter(result => result !== null &&  !isNaN(result.value))
+        );
 
 
-export { getAllReportsAfterDatesAndGender,  getAllReportsAfterGender,averageFromResultsArr, meanFromResultsArr };
+
+        return aggregatedResults;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return [];
+    }
+}
+
+export { getAllReportsAfterDatesAndGenderRaw, getAllReportsAfterDatesAndGender,  getAllReportsAfterGender,averageFromResultsArr, meanFromResultsArr };

@@ -95,7 +95,8 @@ public class MyController {
     public ResponseEntity<List<Reports>> getReportsByTestIdAndDateRangeAndGender(
             @RequestParam String testName,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate, @RequestParam(name = "gender",required = false, defaultValue = "All") String gender) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
+            @RequestParam(name = "gender",required = false, defaultValue = "All") String gender) {
 
         ObjectId testId = testLookupService.getTestIdByName(testName);
         List<Reports> reports = reportsService.getReportsByTestIdAndDateAndGender(testId,startDate,endDate,gender);
