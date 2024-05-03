@@ -11,7 +11,8 @@ function NewBarChart() {
     const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
     const [testName, setTestName] = useState('Food Intolerance (40 items)');
     const [gender, setGender] = useState('all');
-    const [count, setCount] = useState(0);
+    const [countMale, setCountMale] = useState(0);
+    const [countFemale, setCountFemale] = useState(0);
     const [chartType, setChartType] = useState('bar'); // 'bar' eller 'line'
 
     useEffect(() => {
@@ -24,7 +25,13 @@ function NewBarChart() {
                 return { name: male.name, maleValue: male.value, femaleValue: female.value };
             });
             setData(combinedData);
-            setCount(combinedData.reduce((acc, item) => acc + item.maleValue + item.femaleValue, 0));
+            if (maleResults[0] !== undefined ){
+                setCountMale(maleResults[0].count)
+            }
+            if (femaleResults[0] !== undefined){
+                setCountFemale(femaleResults[0].count)
+            }
+            //setCount(combinedData.reduce((acc, item) => acc + item.maleValue + item.femaleValue, 0));
         }
         fetchData();
     }, [testName, startDate, endDate, gender]);
@@ -81,7 +88,8 @@ function NewBarChart() {
                 </ResponsiveContainer>
             </ResizableBox>
             <label>
-                Amount of results: {count !== 0 ? count : 'No Results'}
+                Amount of results <span style={{ color: '#0000FF' }}>Male: {countMale !== 0 ? countMale : 'No Results'} </span>
+                <span style={{ color: '#FF0000' }}> Female: {countFemale !== 0 ? countFemale : 'No Results'}</span>
             </label>
         </div>
     );

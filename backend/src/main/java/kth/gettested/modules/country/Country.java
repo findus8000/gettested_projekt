@@ -10,6 +10,7 @@ public class Country {
     @Id
     private String id;
     private String name;
+    private String phoneCode;
     // Getters and setters
 
 
@@ -29,4 +30,11 @@ public class Country {
         this.name = name;
     }
 
+    public String getPhoneCode() {
+        return phoneCode;
+    }
+
+    public void setPhoneCode(String phoneCode) {
+        this.phoneCode = phoneCode;
+    }
 }

@@ -34,10 +34,11 @@ function meanFromResultsArr(resultsArr){
 
     for (let i = 0; i < resultsArr.length; i++) {
         for (let j = 0; j < resultsArr[i].length; j++) {
-            resultsArr[i][j].value  = resultsArr[i][j].value.replace('<', '').trim();
-            resultsArr[i][j].value = resultsArr[i][j].value.replace('>', '').trim();
-            if (!isNaN(Number(resultsArr[i][j].value))){
-               data[j].push(Number(resultsArr[i][j].value));
+            if (resultsArr[i][j] != null && resultsArr[i][j].value != null){
+                resultsArr[i][j].value  = resultsArr[i][j].value.replace('<', '').replace('>', '').trim();
+                if (!isNaN(Number(resultsArr[i][j].value))){
+                    data[j].push(Number(resultsArr[i][j].value));
+                }
             }
         }
     }
@@ -126,7 +127,9 @@ async function getAllReportsAfterDatesAndGender(testName, startDate, endDate, ge
 
         medianComplicated(aggregatedResults);
 
-
+        const resCopy =  response.data.map(entity => entity.results).filter(r => r);
+        const mean = meanFromResultsArr(resCopy);
+        console.log("Median second version: "+mean)
 
         return aggregatedResults.reduce((acc, curr) => {
             curr.forEach(item => {

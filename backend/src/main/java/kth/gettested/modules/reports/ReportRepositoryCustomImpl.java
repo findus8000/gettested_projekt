@@ -52,18 +52,17 @@ public class ReportRepositoryCustomImpl implements ReportRepositoryCustom {
     @Override
     public List<Reports> getReportsByTestNameAndDateAndPatientGender(ObjectId testId, Date startDate, Date endDate, String gender) {
         Aggregation aggregation;
+        Criteria criteria = Criteria.where("test").is(testId).and("sent").gte(startDate).lte(endDate);
 
         if (gender.equals("Male") || gender.equals("Female")) {
+            criteria = criteria.and("patient.gender").is(gender);
             aggregation = Aggregation.newAggregation(
                     lookup("patients", "patient", "_id", "patient"),
-                    match(Criteria.where("test").is(testId)
-                            .and("patient.gender").is(gender)
-                            .and("sent").gte(startDate).lte(endDate))
+                    match(criteria)
             );
         } else {
             aggregation = Aggregation.newAggregation(
-                    match(Criteria.where("test").is(testId)
-                            .and("sent").gte(startDate).lte(endDate))
+                    match(criteria)
             );
         }
 

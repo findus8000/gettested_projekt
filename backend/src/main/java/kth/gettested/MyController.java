@@ -1,6 +1,7 @@
 package kth.gettested;
 
 import kth.gettested.modules.country.Country;
+import kth.gettested.modules.country.CountryPhoneCodeLookupTable;
 import kth.gettested.modules.country.CountryService;
 import kth.gettested.modules.patient.Patient;
 import kth.gettested.modules.patient.PatientService;
@@ -14,8 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -24,17 +25,18 @@ import java.util.List;
 public class MyController {
 
     private final CountryService countryService;
-
     private final PatientService patientService;
     private final ReportsService reportsService;
     private final TestLookupService testLookupService;
+    private final CountryPhoneCodeLookupTable countryPhoneCodeLookupTable;
 
     @Autowired
-    public MyController(CountryService countryService, PatientService patientService, ReportsService reportsService, TestLookupService testLookupService) {
+    public MyController(CountryService countryService, PatientService patientService, ReportsService reportsService, TestLookupService testLookupService, CountryPhoneCodeLookupTable countryPhoneCodeLookupTable) {
         this.countryService = countryService;
         this.patientService = patientService;
         this.reportsService = reportsService;
         this.testLookupService = testLookupService;
+        this.countryPhoneCodeLookupTable = countryPhoneCodeLookupTable;
     }
 
 
@@ -50,19 +52,6 @@ public class MyController {
         List<Patient> patientGenders = patientService.getAllPatientGenders();
         return new ResponseEntity<>(patientGenders, HttpStatus.OK);
     }
-    @GetMapping("/statistics/test3")
-    public ResponseEntity<List<Reports>> getPatientStatisticsForTest(@RequestParam(name = "query",required = false, defaultValue = "Food Intolerance (40 items)") String query) {
-        ObjectId id =  testLookupService.getTestIdByName(query);
-        List<Reports> reportsByTestId = reportsService.getReportsByTestId(id);
-        return new ResponseEntity<>(reportsByTestId, HttpStatus.OK);
-    }
-    @GetMapping("/statistics/test")
-    public ResponseEntity<List<Reports>> getPatientStatisticsForTest(){
-        ObjectId id =  testLookupService.getTestIdByName("Food Intolerance (40 items)");
-        List<Reports> reportsByTestId = reportsService.getReportsByTestId(id);
-        return new ResponseEntity<>(reportsByTestId, HttpStatus.OK);
-    }
-
 
 
     @GetMapping("/statistics/testAndGender")
@@ -91,12 +80,22 @@ public class MyController {
         return reports.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(reports, HttpStatus.OK);
     }
 
+    SimpleDateFormat dateFormatPatientDateOfBirth = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
     @GetMapping("/reports/byTestIdAndDateRangeAndGender")
     public ResponseEntity<List<Reports>> getReportsByTestIdAndDateRangeAndGender(
             @RequestParam String testName,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
-            @RequestParam(name = "gender",required = false, defaultValue = "All") String gender) {
+            @RequestParam(name = "gender",required = false, defaultValue = "All") String gender,
+            @RequestParam(name = "country",required = false, defaultValue = "Germany") String country)  {
+
+        //Test for country code and date:
+        String code = countryPhoneCodeLookupTable.getPhoneCodeByCountryName(country);
+
+        Date start = new Date(1800 - 1900, 1 - 1, 1);
+        List<Patient> patiento = patientService.getBetween(dateFormatPatientDateOfBirth.format(start), dateFormatPatientDateOfBirth.format(endDate));
+        System.out.println("CountryCode:"+code+" "+patiento.size());
 
         ObjectId testId = testLookupService.getTestIdByName(testName);
         List<Reports> reports = reportsService.getReportsByTestIdAndDateAndGender(testId,startDate,endDate,gender);

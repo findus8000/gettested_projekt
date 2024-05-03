@@ -7,11 +7,15 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 
 @Repository
 public interface PatientRepository extends MongoRepository<Patient, String> {
-    @Query("{'gender': ?0}")
-    List<Patient> findByTestId(String gender);
+    @Query("{'phoneCode': ?0}")
+    List<Patient> findByphoneCode(String phoneCode);
+
+    @Query("{'dateOfBirth': {$gte: ?0, $lte: ?1}}")
+    List<Patient> findByDateOfBirthBetween(String start, String end);
 }
