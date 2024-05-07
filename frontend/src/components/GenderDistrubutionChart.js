@@ -22,8 +22,8 @@ function GenderDistrubutionChart({testType}) {
             const femaleResult = await getAllReportsAfterDatesAndGenderRaw(testType, '2022-02-01', '2024-02-01', "Female");
             setMaleTests(maleResult.length);
             setFemaleTests(femaleResult.length);
-            console.log("M: ", maleResult)
-            console.log("F:", femaleResult)
+            //console.log("M: ", maleResult)
+            //console.log("F:", femaleResult)
         }
 
         fetchData();
@@ -49,14 +49,14 @@ function GenderDistrubutionChart({testType}) {
 
         return (
 
-                <PieChart width={250} height={150}>
+                <PieChart width={250} height={250}>
                     <Pie
                         data={data}
                         cx='50%'
                         cy='50%'
                         labelLine={false}
                         label={renderCustomizedLabel}
-                        outerRadius={60}
+                        outerRadius={100}
                         fill="#8884d8"
                         dataKey="value"
                     >

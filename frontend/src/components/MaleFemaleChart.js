@@ -58,7 +58,7 @@ function MaleFemaleChart({testType, specificTestType}){
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="name" tick={{fontSize: 15, fill: 'white'}}/>
                 <YAxis />
                 <Tooltip />
                 <Legend />

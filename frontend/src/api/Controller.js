@@ -98,7 +98,7 @@ function medianComplicated(resultArr){
         medians[name] = median;
     });
 
-    console.log('Medians for each test result:', medians);
+   // console.log('Medians for each test result:', medians);
 }
 
 
@@ -107,8 +107,9 @@ async function getAllReportsAfterDatesAndGender(testName, startDate, endDate, ge
         const response = await axios.get(`http://localhost:8080/api/reports/byTestIdAndDateRangeAndGender`, {
             params: { testName, startDate, endDate, gender }
         });
-        console.log(response.data)
+        //console.log("raw : ", response.data)
         const results = response.data.map(entity => entity.results).filter(r => r);
+
 
         if (results.length === 0) {
             console.log("No results available in data.");
@@ -129,7 +130,7 @@ async function getAllReportsAfterDatesAndGender(testName, startDate, endDate, ge
 
         const resCopy =  response.data.map(entity => entity.results).filter(r => r);
         const mean = meanFromResultsArr(resCopy);
-        console.log("Median second version: "+mean)
+        //console.log("Median second version: "+mean)
 
         return aggregatedResults.reduce((acc, curr) => {
             curr.forEach(item => {
@@ -161,7 +162,7 @@ async function getAllReportsAfterGender(query,gender) {
             params: { query, gender }
         });
         const results = response.data.map(entity => entity.results).filter(r => r);
-        //console.log("Data from server:", results);
+        console.log("Data from server:", results);
 
         if (results.length === 0) {
             console.log("No results available in data.");
@@ -169,10 +170,13 @@ async function getAllReportsAfterGender(query,gender) {
         }
 
         const aggregatedResults = results.map(arr =>
-            arr.map(result => ({
-                name: result.name || 'Unnamed',
-                value: parseFloat(result.value.replace('<', '').trim())
-            })).filter(result => !isNaN(result.value))
+            arr.map(result => {
+                const stringValue = result.value ? result.value.toString() : '0';
+                return {
+                    name: result.name || 'Unnamed',
+                    value: parseFloat(stringValue.replace('<', '').trim())
+                };
+            }).filter(result => !isNaN(result.value))
         );
 
 
@@ -221,7 +225,6 @@ async function getAllReportsAfterDatesAndGenderRaw(testName, startDate, endDate,
         );
 
 
-
         return aggregatedResults;
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -229,4 +232,60 @@ async function getAllReportsAfterDatesAndGenderRaw(testName, startDate, endDate,
     }
 }
 
-export { getAllReportsAfterDatesAndGenderRaw, getAllReportsAfterDatesAndGender,  getAllReportsAfterGender,averageFromResultsArr, meanFromResultsArr };
+
+async function getAveragesByMonthSpecific(testName, specificTest,startDate, endDate, gender) {
+    try {
+        const response = await axios.get(`http://localhost:8080/api/reports/byTestIdAndDateRangeAndGender`, {
+            params: { testName, startDate, endDate, gender }
+        });
+
+        const results = response.data.filter(entity => entity.sent && entity.results && entity.results.length > 0)
+            .map(entity => ({
+                sent: entity.sent,
+                results: entity.results.filter(test => test.name === specificTest)
+            }));
+
+
+        if (results.length === 0) {
+            console.log("No results available in data.");
+            return [];
+        }
+
+        const months = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        let avgsByMonth = [];
+        for (let i = 0; i < 12; i++) {
+            const monthResults = results.filter(entity => {
+                const sentDate = new Date(entity.sent);
+                return sentDate.getMonth() === i;
+            })
+                .map(entity => ({
+                    sent: entity.sent,
+                    results: entity.results.filter(test => test.name === specificTest)
+                }));
+
+            const values = monthResults.flatMap(entity =>
+                entity.results.map(test => parseFloat(test.value.replace('<', '').trim())).filter(value => value !== undefined && !isNaN(value))
+            );
+
+            const count = values.length;
+
+            const sum = values.reduce((accumulator, currentValue) => {
+                return accumulator + currentValue;
+            }, 0);
+
+            avgsByMonth.push({name: months[i], avg: sum/count});
+        }
+
+
+        return avgsByMonth;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return [];
+    }
+}
+
+export { getAveragesByMonthSpecific, getAllReportsAfterDatesAndGenderRaw, getAllReportsAfterDatesAndGender,  getAllReportsAfterGender,averageFromResultsArr, meanFromResultsArr };

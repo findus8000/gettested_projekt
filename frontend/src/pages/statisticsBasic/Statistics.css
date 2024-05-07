@@ -1,5 +1,5 @@
 #statisticspage{
-    text-align: left;
+    text-align: center;
     top: 0;
     left: 0;
     width: 100%; /* viewport width */
@@ -25,7 +25,6 @@
 
 #rightdiv{
     width: 45vw;
-    height: 80vh;
     background-color: #3a3a3a;
     border-radius: 20px;
     text-align: center;
@@ -35,13 +34,19 @@
 #barchart{
     background-color: white;
     border-radius: 10px;
+    margin-top: 59px;
 }
 
 #piechart{
     padding-left: 165px;
+    margin-top: 100px;
 }
 
-#values{
-    text-align: left;
-    padding: 4px;
+#specificdropdown{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+#testSelector{
+
 }
