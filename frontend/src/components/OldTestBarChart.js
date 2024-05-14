@@ -10,7 +10,7 @@ function TestBarChart ({testType}) {
         async function fetchData() {
 
             const result = await getAllReportsAfterGender(testType);
-            console.log("oldtestbar", result)
+            //console.log("oldtestbar", result)
             set(result);
         }
         fetchData();

@@ -1,6 +1,6 @@
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import {useEffect, useState} from "react";
-import {getAveragesByMonthSpecific} from "../api/Controller";
+import {getAllReportsAfterDatesAndGenderAndCountryCode, getAveragesByMonthSpecific} from "../api/Controller";
 /*
 const data = [
     {
@@ -61,6 +61,7 @@ function AverageByMonthChart({testType, specificTestType}){
         async function fetchData(){
             const data = await getAveragesByMonthSpecific(testType, specificTestType,'2022-02-01', '2024-02-01');
             setData(data)
+            const testcountrycode = await getAllReportsAfterDatesAndGenderAndCountryCode(testType, '2022-02-01', '2024-02-01', "All", "Germany");
             //console.log("Months: ", data)
         }
 

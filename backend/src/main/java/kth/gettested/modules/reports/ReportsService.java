@@ -44,6 +44,10 @@ public class ReportsService {
         return reportRepositoryCustom.getReportsByTestNameAndDateAndPatientGender(testId,startDate,endDate,gender);
     }
 
+    public List<Reports> getReportsByTestNameDatePatientGenderAndCountryCode(ObjectId testId, Date startDate, Date endDate, String gender, String phoneCode){
+        return reportRepositoryCustom.getReportsByTestNameDatePatientGenderCountryCode(testId, startDate, endDate, gender, phoneCode);
+    }
+
 }
 
 

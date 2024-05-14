@@ -70,5 +70,34 @@ public class ReportRepositoryCustomImpl implements ReportRepositoryCustom {
         return results.getMappedResults();
     }
 
+
+    @Override
+    public List<Reports> getReportsByTestNameDatePatientGenderCountryCode(ObjectId testId, Date startDate, Date endDate, String gender, String phoneCode) {
+        Aggregation aggregation;
+        Criteria criteria = Criteria.where("test").is(testId).and("sent").gte(startDate).lte(endDate);
+
+
+        if (gender.equals("Male") || gender.equals("Female")) {
+            criteria = criteria.and("patient.gender").is(gender);
+        }
+
+
+        if (phoneCode != null && !phoneCode.trim().isEmpty()) {
+            criteria = criteria.and("patient.phoneCode").is(phoneCode);
+        }
+
+
+        if (criteria.getCriteriaObject().containsKey("patient.gender") || criteria.getCriteriaObject().containsKey("patient.phoneCode")) {
+            aggregation = Aggregation.newAggregation(
+                    lookup("patients", "patient", "_id", "patient"),
+                    match(criteria)
+            );
+        } else {
+            aggregation = Aggregation.newAggregation(match(criteria));
+        }
+
+        AggregationResults<Reports> results = mongoTemplate.aggregate(aggregation, "reports", Reports.class);
+        return results.getMappedResults();
+    }
 }
 

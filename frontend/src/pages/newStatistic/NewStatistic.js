@@ -3,6 +3,7 @@ import DateBarChart from "../../components/NewBarChart";
 import React from "react";
 import { Link } from 'wouter';
 import NewBarChart from "../../components/NewBarChart";
+import CompareCountriesChart from "../../components/CompareCountriesChart";
 
 function NewStatistic() {
     return (
@@ -30,19 +31,13 @@ function NewStatistic() {
             <div id="panels">
                 <div id="leftdiv">
                     <p id="bold">General</p>   <br/>
-                    <div id="values">
-                        Average:<br/>
-                        Mean:<br/>
-                    </div>
                     <div id="barchart"><NewBarChart></NewBarChart></div>
                 </div>
                 <div id="rightdiv">
                     <p id="bold">Specific</p>  <br/>
-                    <div id="values">
-                        Average:<br/>
-                        Mean:<br/>
-                    </div>
+
                     <div id="barchart"><NewBarChart></NewBarChart></div>
+                    <div id="barchart"><CompareCountriesChart></CompareCountriesChart></div>
                 </div>
             </div>
         </div>

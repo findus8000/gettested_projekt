@@ -124,7 +124,7 @@ async function getAllReportsAfterDatesAndGender(testName, startDate, endDate, ge
                     : null
             })).filter(result => result !== null &&  !isNaN(result.value))
         );
-        //console.log('Aggregated Results:', aggregatedResults);
+        console.log('Aggregated Results:', aggregatedResults.length);
 
         medianComplicated(aggregatedResults);
 
@@ -156,6 +156,7 @@ async function getAllReportsAfterDatesAndGender(testName, startDate, endDate, ge
         return [];
     }
 }
+
 async function getAllReportsAfterGender(query,gender) {
     try {
         const response = await axios.get(`http://localhost:8080/api/statistics/testAndGender`, {
@@ -207,7 +208,7 @@ async function getAllReportsAfterDatesAndGenderRaw(testName, startDate, endDate,
         const response = await axios.get(`http://localhost:8080/api/reports/byTestIdAndDateRangeAndGender`, {
             params: { testName, startDate, endDate, gender }
         });
-        console.log(response.data)
+        //console.log(response.data)
         const results = response.data.map(entity => entity.results).filter(r => r);
 
         if (results.length === 0) {
@@ -288,4 +289,82 @@ async function getAveragesByMonthSpecific(testName, specificTest,startDate, endD
     }
 }
 
-export { getAveragesByMonthSpecific, getAllReportsAfterDatesAndGenderRaw, getAllReportsAfterDatesAndGender,  getAllReportsAfterGender,averageFromResultsArr, meanFromResultsArr };
+
+async function getAllReportsAfterDatesAndGenderAndCountryCode(testName, startDate, endDate, gender, country) {
+    try {
+        const response = await axios.get(`http://localhost:8080/api/reports/byTestIdAndDateRangeAndGenderAndPhoneCode`, {
+            params: { testName, startDate, endDate, gender, country }
+        });
+        console.log("COUnTRYCODE CONTROLLER : ",(response.data))
+        const results = response.data.map(entity => entity.results).filter(r => r);
+
+
+        if (results.length === 0) {
+            console.log("No results available in data.");
+            return [];
+        }
+
+        const aggregatedResults = results.map(arr =>
+            arr.map(result => ({
+                name: result.name || 'Unknown',
+                value: result.value !== null && result.value !== undefined
+                    ? parseFloat(result.value.replace(/[<>]/g, '').trim())
+                    : null
+            })).filter(result => result !== null &&  !isNaN(result.value))
+        );
+        console.log('Aggregated Results:', aggregatedResults.length);
+
+
+        return aggregatedResults.reduce((acc, curr) => {
+            curr.forEach(item => {
+                const existing = acc.find(a => a.name === item.name);
+                if (existing) {
+                    if (item.value!=null){
+                        existing.value += item.value;
+                        existing.count++;
+                    }
+                } else {
+                    acc.push({ ...item, count: 1 });
+                }
+            });
+            return acc;
+        }, []).map(item => ({
+            name: item.name,
+            value: item.value / item.count,
+            amt: 2000,
+            count: item.count
+        }));
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return [];
+    }
+}
+
+async function getAllCountries(){
+    try {
+        const response = await axios.get("http://localhost:8080/api/country/getAll");
+        console.log("COUNTRY:", response.data)
+        return response.data;
+    }catch (error) {
+        console.error('Error fetching data:', error);
+        return [];
+    }
+}
+
+
+async function test(testName, startDate, endDate, gender, country) {
+    try {
+        const response = await axios.get(`http://localhost:8080/api/reports/byTestIdAndDateRangeAndGenderAndPhoneCode`, {
+            params: { testName, startDate, endDate, gender, country }
+        });
+        console.log("TEST CONTROLLER : ",(response.data))
+
+
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return [];
+    }
+}
+
+export { test, getAllCountries, getAllReportsAfterDatesAndGenderAndCountryCode, getAveragesByMonthSpecific, getAllReportsAfterDatesAndGenderRaw, getAllReportsAfterDatesAndGender,  getAllReportsAfterGender,averageFromResultsArr, meanFromResultsArr };

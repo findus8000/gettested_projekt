@@ -102,4 +102,21 @@ public class MyController {
         return reports.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(reports, HttpStatus.OK);
     }
 
+    @GetMapping("/reports/byTestIdAndDateRangeAndGenderAndPhoneCode")
+    public ResponseEntity<List<Reports>> getReportsByTestIdAndDateRangeAndGenderAndCountryCode(
+            @RequestParam String testName,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
+            @RequestParam(name = "gender",required = false, defaultValue = "All") String gender,
+            @RequestParam(name = "country",required = false, defaultValue = "Sweden") String country)  {
+
+        System.out.println(country);
+        String countryCode = countryPhoneCodeLookupTable.getPhoneCodeByCountryName(country);
+
+        System.out.println("cc: " + countryCode);
+
+        ObjectId testId = testLookupService.getTestIdByName(testName);
+        List<Reports> reports = reportsService.getReportsByTestNameDatePatientGenderAndCountryCode(testId,startDate,endDate,gender, countryCode);
+        return reports.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(reports, HttpStatus.OK);
+    }
 }
