@@ -9,11 +9,11 @@ function Landing() {
                 <div style={{backgroundColor:"#414141FF", borderBottom: "5px solid #000"}}>
                     <img src="getTested-logo-small.png" alt="Gettested Logo"/>
                 </div>
-                <Link href="/statistics" className="link-button">Statistics</Link>
+                <Link href="/statistics" className="link-button">Averages</Link>
                 <br/>
-                <Link href="/basicStatistics" className="link-button">Old Basic Statistics</Link>
+                <Link href="/basicStatistics" className="link-button">Specific Test Average</Link>
                 <br/>
-                <Link href="/newStatistic" className="link-button">Advanced Statistics</Link>
+                <Link href="/newStatistic" className="link-button">Compare Averages</Link>
 
             </div>
         </div>

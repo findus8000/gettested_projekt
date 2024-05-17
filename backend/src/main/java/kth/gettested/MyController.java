@@ -95,7 +95,7 @@ public class MyController {
 
         Date start = new Date(1800 - 1900, 1 - 1, 1);
         List<Patient> patiento = patientService.getBetween(dateFormatPatientDateOfBirth.format(start), dateFormatPatientDateOfBirth.format(endDate));
-        System.out.println("CountryCode:"+code+" "+patiento.size());
+        //System.out.println("CountryCode:"+code+" "+patiento.size());
 
         ObjectId testId = testLookupService.getTestIdByName(testName);
         List<Reports> reports = reportsService.getReportsByTestIdAndDateAndGender(testId,startDate,endDate,gender);
@@ -110,10 +110,10 @@ public class MyController {
             @RequestParam(name = "gender",required = false, defaultValue = "All") String gender,
             @RequestParam(name = "country",required = false, defaultValue = "Sweden") String country)  {
 
-        System.out.println(country);
+        //System.out.println(country);
         String countryCode = countryPhoneCodeLookupTable.getPhoneCodeByCountryName(country);
 
-        System.out.println("cc: " + countryCode);
+        //System.out.println("cc: " + countryCode);
 
         ObjectId testId = testLookupService.getTestIdByName(testName);
         List<Reports> reports = reportsService.getReportsByTestNameDatePatientGenderAndCountryCode(testId,startDate,endDate,gender, countryCode);

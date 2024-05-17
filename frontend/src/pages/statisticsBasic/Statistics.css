@@ -20,7 +20,7 @@
     border-radius: 20px;
     text-align: center;
     border: 5px solid #555;
-
+    color: white;
 }
 
 #rightdiv{
@@ -29,6 +29,7 @@
     border-radius: 20px;
     text-align: center;
     border: 5px solid #555;
+    color: white;
 }
 
 #barchart{
