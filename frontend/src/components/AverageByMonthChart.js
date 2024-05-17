@@ -82,7 +82,7 @@ function AverageByMonthChart({testType, specificTestType}){
                     }}
                 >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" interval={0} tick={{fontSize: 10, fill: 'white'}} />
+                    <XAxis dataKey="name" angle={-45} textAnchor="end" interval={0} tick={{fontSize: 10, fill: 'white'}} />
                     <YAxis />
                     <Tooltip />
                     <Legend />

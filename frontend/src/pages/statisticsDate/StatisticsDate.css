@@ -7,14 +7,14 @@
 }
 
 .selectDropdown {
-    font-size: 1.2em;
+    font-size: 0.85em;
     padding: 10px 20px;
     cursor: pointer;
     color: #fff; /* White text for visibility */
     background-color: #555; /* Dark background */
     border: none;
     border-radius: 5px;
-    width: 200px;
+    width: 1000px; /* Ensure it uses the full width of the parent */
 }
 
 #linkback{

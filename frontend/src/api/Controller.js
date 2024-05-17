@@ -124,7 +124,7 @@ async function getAllReportsAfterDatesAndGender(testName, startDate, endDate, ge
                     : null
             })).filter(result => result !== null &&  !isNaN(result.value))
         );
-        console.log('Aggregated Results:', aggregatedResults.length);
+        //console.log('Aggregated Results:', aggregatedResults);
 
         medianComplicated(aggregatedResults);
 
@@ -351,20 +351,68 @@ async function getAllCountries(){
     }
 }
 
-
-async function test(testName, startDate, endDate, gender, country) {
+async function getDistrubutionOfSpecificTest(testName, startDate, endDate,  specificTest, interval){
     try {
-        const response = await axios.get(`http://localhost:8080/api/reports/byTestIdAndDateRangeAndGenderAndPhoneCode`, {
-            params: { testName, startDate, endDate, gender, country }
+        const response = await axios.get(`http://localhost:8080/api/reports/byTestIdAndDateRangeAndGender`, {
+            params: { testName, startDate, endDate }
         });
-        console.log("TEST CONTROLLER : ",(response.data))
+
+        const results = response.data.map(entity => entity.results).filter(r => r);
+
+
+        if (results.length === 0) {
+            console.log("No results available in data.");
+            return [];
+        }
+
+        const aggregatedResults = results.map(arr =>
+            arr
+                .filter(result => result.name === specificTest)
+                .map(result =>
+                    result.value !== null && result.value !== undefined
+                        ? parseFloat(result.value.replace(/[<>]/g, '').trim())
+                        : null
+                )
+                .filter(value => value !== null && !isNaN(value))
+        ).flat();
+        console.log('AGGGG: ', aggregatedResults);
+        if (aggregatedResults.length === 0){
+            return [];
+        }
+
+
+        const maxTestValue = Math.max(...aggregatedResults);
+        let chartData = [];
+        let lastUpperRange = 0;
+
+        for (let i = 0; i < maxTestValue; i++) {
+            if(i%interval === 0){
+                chartData.push({name: "" + i +"=< & <"+(i+interval), amount: 0});
+                if (lastUpperRange < (i+interval)){ lastUpperRange = (i+interval)}
+            }
+        }
+
+        chartData[chartData.length-1].name = chartData[chartData.length-1].name.replace(/<\d+/, '<') + maxTestValue;
+
+        aggregatedResults.forEach(value =>{
+            let x = Math.trunc(value / interval);
+            if (x > chartData.length-1){
+                chartData[chartData.length-1].amount++;
+            }else{
+                chartData[x].amount++;
+            }
+
+
+        })
 
 
 
+        return chartData;
     } catch (error) {
         console.error('Error fetching data:', error);
         return [];
     }
 }
 
-export { test, getAllCountries, getAllReportsAfterDatesAndGenderAndCountryCode, getAveragesByMonthSpecific, getAllReportsAfterDatesAndGenderRaw, getAllReportsAfterDatesAndGender,  getAllReportsAfterGender,averageFromResultsArr, meanFromResultsArr };
+
+export { getDistrubutionOfSpecificTest, getAllCountries, getAllReportsAfterDatesAndGenderAndCountryCode, getAveragesByMonthSpecific, getAllReportsAfterDatesAndGenderRaw, getAllReportsAfterDatesAndGender,  getAllReportsAfterGender,averageFromResultsArr, meanFromResultsArr };

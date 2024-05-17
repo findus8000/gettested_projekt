@@ -10,18 +10,18 @@
 
 .link-button {
     display: inline-block;
-    padding: 12px 24px; /* Justerad storlek för bättre klickyta */
-    margin: 10px 0; /* Ökad marginal för bättre separation */
-    font-size: 20px; /* Större text för bättre läsbarhet */
+    padding: 12px 24px;
+    margin: 10px 0;
+    font-size: 20px;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
     color: white;
-    background-color: #007BFF; /* Blå */
+    background-color: #4c6c8d; /* Blå */
     border: none;
     border-radius: 5px;
     transition: background-color 0.3s, box-shadow 0.3s;
-    outline: none; /* Tar bort outline för modernare look, men kan läggas till för tillgänglighet */
+    outline: none;
 }
 
 .link-button:hover, .link-button:focus {

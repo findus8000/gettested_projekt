@@ -6,7 +6,7 @@ function Landing() {
     return (
         <div id="landingpage">
             <div className="content-overlay">
-                <div>
+                <div style={{backgroundColor:"#414141FF", borderBottom: "5px solid #000"}}>
                     <img src="getTested-logo-small.png" alt="Gettested Logo"/>
                 </div>
                 <Link href="/statistics" className="link-button">Statistics</Link>

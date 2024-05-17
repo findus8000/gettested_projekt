@@ -1,0 +1,62 @@
+/* Customize the burger menu appearance */
+.bm-burger-button {
+    position: fixed;
+    width: 36px;
+    height: 30px;
+    left: 36px;
+    top: 36px;
+}
+
+.bm-burger-bars {
+    background: #868686;
+}
+
+.bm-burger-bars-hover {
+    background: #000000;
+}
+
+.bm-cross-button {
+    height: 24px;
+    width: 24px;
+}
+
+.bm-cross {
+    background: #bdc3c7;
+}
+
+.bm-menu {
+    background: #444444;
+    padding: 2.5em 1.5em 0;
+    font-size: 1.15em;
+    overflow: hidden; /* Hide overflow to remove scrollbar */
+    height: 100%; /* Ensure the menu takes full height */
+    box-sizing: border-box; /* Include padding in height calculation */
+}
+
+.bm-morph-shape {
+    fill: #373a47;
+}
+
+.bm-item-list {
+    color: #b8b7ad;
+    padding: 0.8em;
+    max-height: calc(100% - 2.5em); /* Adjust max-height to fit within the menu */
+    overflow: hidden; /* Hide overflow within the list */
+    box-sizing: border-box; /* Include padding in height calculation */
+}
+
+.bm-item {
+    display: inline-block;
+    text-decoration: none;
+    margin-bottom: 10px;
+    color: #d1d1d1;
+    transition: color 0.2s;
+}
+
+.bm-item:hover {
+    color: #c7c7c7;
+}
+
+.bm-overlay {
+    background: rgba(0, 0, 0, 0.3);
+}

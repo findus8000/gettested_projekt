@@ -11,7 +11,7 @@ import { ResizableBox } from 'react-resizable';
 import 'react-resizable/css/styles.css';
 import axios from "axios";
 
-function NewBarChart() {
+function CompareCountriesChart() {
     const [data, setData] = useState([]);
     const [testName, setTestName] = useState('Food Intolerance (40 items)');
 
@@ -20,7 +20,7 @@ function NewBarChart() {
     const [chartType, setChartType] = useState('bar');
     const [countries, setCountries] = useState([]);
     const [country1, setCountry1] = useState("Sweden");
-    const [country2, setCountry2] = useState("Germany");
+    const [country2, setCountry2] = useState("Norway");
 
 
 
@@ -120,6 +120,6 @@ function NewBarChart() {
     );
 }
 
-export default NewBarChart;
+export default CompareCountriesChart;
 
 
