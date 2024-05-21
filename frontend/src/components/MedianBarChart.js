@@ -20,7 +20,7 @@ function MedianBarChart ({testType}) {
             return (
                 <div className="custom-tooltip" style={{ backgroundColor: '#fff', border: '1px solid #ccc', padding: '10px' }}>
                     <p className="label" style={{color: "black"}}>{`${label}`}</p>
-                    <p className="value" style={{color: "black"}}>{`Average: ${payload[0].value.toFixed(3)}`}</p>
+                    <p className="value" style={{color: "black"}}>{`Median: ${payload[0].value.toFixed(3)}`}</p>
                 </div>
             );
         }
