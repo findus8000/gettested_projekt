@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { getAllAveragesAfterGender } from '../api/Controller';
+import {getAllAveragesAfterGender, getAllMediansAfterGender} from '../api/Controller';
 
 
 
-function TestBarChart ({testType}) {
+function MedianBarChart ({testType}) {
     const [data, set] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
-            const result = await getAllAveragesAfterGender(testType);
-            //console.log("oldtestbar", result)
+            const result = await getAllMediansAfterGender(testType);
             set(result);
         }
         fetchData();
@@ -49,4 +48,4 @@ function TestBarChart ({testType}) {
     );
 }
 
-export default TestBarChart;
+export default MedianBarChart;

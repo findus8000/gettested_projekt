@@ -3,7 +3,7 @@ import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
 import {
     getAllReportsAfterDatesAndGender,
     getAllReportsAfterDatesAndGenderRaw,
-    getAllReportsAfterGender
+    getAllAveragesAfterGender
 } from "../api/Controller";
 
 
@@ -48,7 +48,7 @@ function GenderDistrubutionChart({testType}) {
     };
 
         return (
-
+            <ResponsiveContainer width="100%" height={250}>
                 <PieChart width={250} height={250}>
                     <Pie
                         data={data}
@@ -65,9 +65,8 @@ function GenderDistrubutionChart({testType}) {
                         ))}
                     </Pie>
                 </PieChart>
-
+            </ResponsiveContainer>
         );
 }
-
 
 export default GenderDistrubutionChart;

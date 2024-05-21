@@ -31,7 +31,18 @@ function SpecificTestDistrubution({testType, specificTestType}) {
         fetchData();
     }, [testType, specificTestType, interval]);
 
+    const CustomTooltip = ({ active, payload, label }) => {
+        if (active && payload && payload.length) {
+            return (
+                <div className="custom-tooltip" style={{ backgroundColor: '#fff', border: '1px solid #ccc', padding: '10px' }}>
+                    <p className="label" style={{color: "black"}}>{`${label}`}</p>
+                    <p className="value" style={{color: "black"}}>{`Amount of tests: ${payload[0].value}`}</p>
+                </div>
+            );
+        }
 
+        return null;
+    };
 
         return (
             <div style={{width: '100%', hieght: '100%', overflowX: 'hidden'}}>
@@ -51,12 +62,12 @@ function SpecificTestDistrubution({testType, specificTestType}) {
                     <XAxis dataKey="name" angle={-45}  textAnchor="end" interval={2} tick={{fontSize: 12, fill: 'white'}}/>
                     <ReferenceLine x="54=< & <57" stroke="white" label="Average" />
                     <YAxis />
-                    <Tooltip />
+                    <Tooltip content={<CustomTooltip />}/>
                     <Bar dataKey="amount" fill="#558418" activeBar={<Rectangle fill="pink" stroke="blue" />} />
                 </BarChart>
                     </ResponsiveContainer>
 
-                <div style={{color: 'white'}}>
+                <div style={{color: 'white', marginBottom: "10px"}}>
                     Select group interval:
                     <select value={interval} onChange={e => {setInterval(Number(e.target.value));}} >
                         <option value="10">10</option>
