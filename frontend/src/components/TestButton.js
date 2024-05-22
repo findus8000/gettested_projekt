@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import axios from "axios";
 import {type} from "@testing-library/user-event/dist/type";
-import {meanFromResultsArr} from "../api/Controller";
+import {medianFromResultsArr} from "../api/Controller";
 
 const TestButton = () => {
     const [textFieldValue, setTextFieldValue] = useState('');

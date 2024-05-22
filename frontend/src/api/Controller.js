@@ -25,19 +25,30 @@ function averageFromResultsArr(resultsArr){
     return avg;
 }
 
-function meanFromResultsArr(resultsArr){
+function medianFromResultsArr(resultsArr){
     let resLen = 0;
-    for (let i = 0; i < resultsArr.length; i++) {if(resultsArr[i].length > resLen){resLen = resultsArr[i].length;}}
-    let data = []
+    let counter = 0;
+    for (let i = 0; i < resultsArr.length; i++) {
+        if(resultsArr[i].length > resLen){
+            counter++;
+            if (counter > resultsArr.length/4){
+                counter = 0;
+                resLen = resultsArr[i].length;
+            }
+        }
+    }
+    const filteredLists = resultsArr.filter(subList => subList.length === resLen);
+    let data = [];
+    let names = [];
     for (let i = 0; i < resLen; i++) { data.push([]); }
 
-
-    for (let i = 0; i < resultsArr.length; i++) {
-        for (let j = 0; j < resultsArr[i].length; j++) {
-            if (resultsArr[i][j] != null && resultsArr[i][j].value != null){
-                resultsArr[i][j].value  = resultsArr[i][j].value.replace('<', '').replace('>', '').trim();
-                if (!isNaN(Number(resultsArr[i][j].value))){
-                    data[j].push(Number(resultsArr[i][j].value));
+    for (let i = 0; i < filteredLists.length; i++) {
+        for (let j = 0; j < filteredLists[i].length; j++) {
+            if (filteredLists[i][j] != null && filteredLists[i][j].value != null){
+                filteredLists[i][j].value  = filteredLists[i][j].value.replace('<', '').replace('>', '').trim();
+                if (!isNaN(Number(filteredLists[i][j].value))){
+                    data[j].push(Number(filteredLists[i][j].value));
+                    names[j] = filteredLists[i][j].name;
                 }
             }
         }
@@ -47,9 +58,9 @@ function meanFromResultsArr(resultsArr){
     for (let i = 0; i < data.length; i++) {
         data[i].sort((a, b) => a - b);
         if (data[i].length % 2 === 0){
-            mean[i] = (data[i][data[i].length/2]+data[i][data[i].length/2-1])/2;
+            mean[i] = { name: names[i], value: (data[i][data[i].length/2]+data[i][data[i].length/2-1])/2 };
         }else {
-            mean[i] = data[i][(data[i].length-1)/2];
+            mean[i] = { name: names[i], value: data[i][(data[i].length-1)/2] };
         }
     }
 
@@ -97,7 +108,7 @@ function medianComplicated(resultArr){
 
         medians[name] = median;
     });
-
+    return(medians);
    // console.log('Medians for each test result:', medians);
 }
 
@@ -129,7 +140,7 @@ async function getAllReportsAfterDatesAndGender(testName, startDate, endDate, ge
         medianComplicated(aggregatedResults);
 
         const resCopy =  response.data.map(entity => entity.results).filter(r => r);
-        const mean = meanFromResultsArr(resCopy);
+        const mean = medianFromResultsArr(resCopy);
         //console.log("Median second version: "+mean)
 
         return aggregatedResults.reduce((acc, curr) => {
@@ -157,7 +168,7 @@ async function getAllReportsAfterDatesAndGender(testName, startDate, endDate, ge
     }
 }
 
-async function getAllReportsAfterGender(query,gender) {
+async function getAllAveragesAfterGender(query, gender) {
     try {
         const response = await axios.get(`http://localhost:8080/api/statistics/testAndGender`, {
             params: { query, gender }
@@ -375,7 +386,7 @@ async function getDistrubutionOfSpecificTest(testName, startDate, endDate,  spec
                 )
                 .filter(value => value !== null && !isNaN(value))
         ).flat();
-        console.log('AGGGG: ', aggregatedResults);
+        //console.log('AGGGG: ', aggregatedResults);
         if (aggregatedResults.length === 0){
             return [];
         }
@@ -387,7 +398,7 @@ async function getDistrubutionOfSpecificTest(testName, startDate, endDate,  spec
 
         for (let i = 0; i < maxTestValue; i++) {
             if(i%interval === 0){
-                chartData.push({name: "" + i +"=< & <"+(i+interval), amount: 0});
+                chartData.push({name: "" + i +"=< test <"+(i+interval), amount: 0});
                 if (lastUpperRange < (i+interval)){ lastUpperRange = (i+interval)}
             }
         }
@@ -415,4 +426,29 @@ async function getDistrubutionOfSpecificTest(testName, startDate, endDate,  spec
 }
 
 
-export { getDistrubutionOfSpecificTest, getAllCountries, getAllReportsAfterDatesAndGenderAndCountryCode, getAveragesByMonthSpecific, getAllReportsAfterDatesAndGenderRaw, getAllReportsAfterDatesAndGender,  getAllReportsAfterGender,averageFromResultsArr, meanFromResultsArr };
+async function getAllMediansAfterGender(query, gender) {
+    try {
+        const response = await axios.get(`http://localhost:8080/api/statistics/testAndGender`, {
+            params: { query, gender }
+        });
+        const results = response.data.map(entity => entity.results).filter(r => r);
+        console.log("Data from server:", results);
+
+
+
+        if (results.length === 0) {
+            console.log("No results available in data.");
+            return [];
+        }
+
+        //console.log("medians", medianFromResultsArr(results));
+
+        return medianFromResultsArr(results);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return [];
+    }
+}
+
+
+export { getAllMediansAfterGender, getDistrubutionOfSpecificTest, getAllCountries, getAllReportsAfterDatesAndGenderAndCountryCode, getAveragesByMonthSpecific, getAllReportsAfterDatesAndGenderRaw, getAllReportsAfterDatesAndGender,  getAllAveragesAfterGender,averageFromResultsArr, medianFromResultsArr };

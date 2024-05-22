@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import { Link } from 'wouter';
 import OldTestBarChart from "../../components/OldTestBarChart";
 import DateBarChart from "../../components/DateBarChart";
-import {getAllReportsAfterDatesAndGender, getAllReportsAfterGender, meanFromResultsArr} from "../../api/Controller";
+import {getAllReportsAfterDatesAndGender, getAllAveragesAfterGender, medianFromResultsArr} from "../../api/Controller";
 import {type} from "@testing-library/user-event/dist/type";
 import MaleFemaleChart from "../../components/MaleFemaleChart";
 import GenderDistrubutionChart from "../../components/GenderDistrubutionChart";
@@ -11,6 +11,7 @@ import AverageByMonthChart from "../../components/AverageByMonthChart";
 import SpecificTestDistrubution from "../../components/SpecificTestDistrubution";
 import '../../components/SelectLayout.css';
 import SelectLayout from "../../components/SelectLayout";
+import MedianBarChart from "../../components/MedianBarChart";
 
 function Statistics() {
     const [testType, setTestType] = useState('Food Intolerance (80 items)');
@@ -46,7 +47,8 @@ function Statistics() {
 
 
                 <div id={"testSelector"}>
-                    <select className="selectDropdown"  value={testType} onChange={e => {setTestType(e.target.value);}} >
+                    <select style={{fontSize: "18px",padding: "10px" ,backgroundColor: "#555", borderRadius: "5px", border: "none", color: "white"}}
+                            value={testType} onChange={e => {setTestType(e.target.value);}} >
                         <option value="Food Intolerance (80 items)">Food Intolerance (80 items)</option>
                         <option value="Allergy & Intolerance Test (78 items)">Allergy & Intolerance Test (78 items)</option>
                         <option value="Food Intolerance (40 items)">Food Intolerance (40 items)</option>
@@ -60,11 +62,12 @@ function Statistics() {
                 <div id="panels">
 
                     <div id="leftdiv">
-
+                        <div style={{marginTop:"31px", fontSize: "20px"}}>Averages for {testType} test</div>
                         <div id="barchart"><OldTestBarChart testType={testType}></OldTestBarChart></div>
+                        <div style={{marginTop:"31px", fontSize: "20px"}}>Medians for {testType} test</div>
+                        <div><MedianBarChart testType={testType}></MedianBarChart></div>
+                        <div>Percent of male & female tests</div>
                         <div id="piechart"><GenderDistrubutionChart testType={testType}></GenderDistrubutionChart></div>
-
-
                     </div>
 
 
@@ -77,9 +80,11 @@ function Statistics() {
                             ))}
                         </select>
 
-
+                        <div style={{marginTop:"10px"}}>Male & Female average for {currentTest} test</div>
                         <MaleFemaleChart testType={testType} specificTestType={currentTest}></MaleFemaleChart>
+                        <div style={{marginTop:"10px"}}>Averages by month for {currentTest} test</div>
                         <AverageByMonthChart testType={testType} specificTestType={currentTest}></AverageByMonthChart>
+                        <div style={{marginTop:"10px"}}>Distribution of {currentTest} test</div>
                         <SpecificTestDistrubution testType={testType} specificTestType={currentTest}></SpecificTestDistrubution>
                     </div>
                 </div>
