@@ -88,21 +88,17 @@ function NewBarChart() {
                 "Postmenopause 3,0-7,5 pg/ml<br />" +
                 "Men 2,1-4,1 pg/ml<br />")
         }
+        else {
+            setReferenceValue("")
+        }
     }, [testName]);
 
     return (
-        <div style={{ width: '100%', overflowX: 'hidden' }}>
+        <div style={{ width: '100%', overflowX: 'hidden'}}>
             <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '10px'}}>
                 <button onClick={() => setChartType(chartType === 'bar' ? 'line' : 'bar')}>
                     Switch to {chartType === 'bar' ? 'Line Chart' : 'Bar Chart'}
                 </button>
-                {chartType === 'bar' && (
-                    <select value={gender} onChange={e => setGender(e.target.value)} style={{width: '200px'}}>
-                        <option value="all">All</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-                )}
                 <label>
                     Select Test:
                     <select value={testName} onChange={e => setTestName(e.target.value)} style={{width: '200px'}}>
@@ -123,7 +119,7 @@ function NewBarChart() {
                     {chartType === 'bar' ? (
                         <BarChart data={data} margin={{ top: 5, right: 0, left: 0, bottom: 50 }}>
                             <CartesianGrid strokeDasharray="3 3"/>
-                            <XAxis dataKey="name" angle={-45} textAnchor="end" height={70} interval={0} tick={{ fontSize: 12, fill: 'black' }}/>
+                            <XAxis dataKey="name" angle={-45} textAnchor="end" height={70} interval={0} tick={{ fontSize: 12, fill: 'white' }}/>
                             <YAxis/>
                             <Tooltip/>
                             <Legend verticalAlign="top"/>

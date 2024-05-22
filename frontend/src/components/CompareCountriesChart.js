@@ -92,7 +92,7 @@ function CompareCountriesChart() {
                     {chartType === 'bar' ? (
                         <BarChart data={data} margin={{ top: 5, right: 0, left: 0, bottom: 50 }}>
                             <CartesianGrid strokeDasharray="3 3"/>
-                            <XAxis dataKey="name" angle={-45} textAnchor="end" height={70} interval={0} tick={{ fontSize: 12, fill: 'black' }}/>
+                            <XAxis dataKey="name" angle={-45} textAnchor="end" height={70} interval={0} tick={{ fontSize: 12, fill: 'white' }}/>
                             <YAxis/>
                             <Tooltip/>
                             <Legend verticalAlign="top"/>

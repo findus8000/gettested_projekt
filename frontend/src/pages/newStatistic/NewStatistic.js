@@ -36,11 +36,11 @@ function NewStatistic() {
                     </div>
                     <div id="panels">
                         <div id="leftdiv">
-                            <p id="bold">General</p>   <br/>
+                            <p id="bold">Compare 1</p>   <br/>
                             <div id="barchart"><NewBarChart></NewBarChart></div>
                         </div>
                         <div id="rightdiv">
-                            <p id="bold">Specific</p>  <br/>
+                            <p id="bold">Compare 2</p>  <br/>
 
                             <div id="barchart"><NewBarChart></NewBarChart></div>
                             <div id="barchart"><CompareCountriesChart></CompareCountriesChart></div>
