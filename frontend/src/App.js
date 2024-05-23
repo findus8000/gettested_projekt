@@ -1,17 +1,17 @@
 import { Route, Switch, Router } from 'wouter';
-import StatisticsDate from "./pages/statisticsDate/StatisticsDate";
+import AverageStat from "./pages/averageStat/AverageStat";
 import Landing from "./pages/landing/Landing";
-import StatisticsBasic from "./pages/statisticsBasic/Statistics";
-import NewStatistic from "./pages/newStatistic/NewStatistic";
+import SpecificStat from "./pages/specificStat/SpecificStat";
+import CompareStat from "./pages/compareStat/CompareStat";
 
 function App() {
     return (
         <Router>
             <Switch>
                 <Route path="/" component={Landing} />
-                <Route path="/statistics" component={StatisticsDate} />
-                <Route path="/basicStatistics" component={StatisticsBasic}/>
-                <Route path="/newStatistic" component={NewStatistic}/>
+                <Route path="/average" component={AverageStat} />
+                <Route path="/specific" component={SpecificStat}/>
+                <Route path="/compare" component={CompareStat}/>
             </Switch>
         </Router>
     );

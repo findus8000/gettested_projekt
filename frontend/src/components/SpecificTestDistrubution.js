@@ -60,7 +60,7 @@ function SpecificTestDistrubution({testType, specificTestType}) {
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" angle={-45}  textAnchor="end" interval={2} tick={{fontSize: 12, fill: 'white'}}/>
-                    <ReferenceLine x="54=< & <57" stroke="white" label="Average" />
+                    <ReferenceLine x="54=< & <57" stroke="white" label="AverageStat" />
                     <YAxis />
                     <Tooltip content={<CustomTooltip />}/>
                     <Bar dataKey="amount" fill="#558418" activeBar={<Rectangle fill="pink" stroke="blue" />} />

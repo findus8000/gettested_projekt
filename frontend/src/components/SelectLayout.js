@@ -9,13 +9,13 @@ const SelectLayout = () => {
             <a className="menu-item" href="/">
                 Home
             </a>
-            <a className="menu-item" href="/statistics">
+            <a className="menu-item" href="/average">
                 Averages
             </a>
-            <a className="menu-item" href="/basicStatistics">
+            <a className="menu-item" href="/specific">
                 Specific
             </a>
-            <a className="menu-item" href="/newStatistic">
+            <a className="menu-item" href="/compare">
                 Compare
             </a>
         </Menu>

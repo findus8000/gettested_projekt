@@ -3,7 +3,7 @@ import { Link } from 'wouter';
 import SelectLayout from "../../components/SelectLayout";
 import { DateBarChart, setTheTestNameOutside, setGender } from "../../components/DateBarChart"; // Make sure the import paths are correct
 
-function StatisticsDate() {
+function AverageStat() {
     const handleTestNameChange = (e) => {
         const selectedTest = e.target.value;
         setTheTestNameOutside(selectedTest, "left");
@@ -62,4 +62,4 @@ function StatisticsDate() {
     );
 }
 
-export default StatisticsDate;
+export default AverageStat;

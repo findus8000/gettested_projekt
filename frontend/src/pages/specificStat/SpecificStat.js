@@ -1,10 +1,8 @@
-import './Statistics.css';
+import './SpecificStat.css';
 import React, {useEffect, useState} from "react";
 import { Link } from 'wouter';
 import OldTestBarChart from "../../components/OldTestBarChart";
-import DateBarChart from "../../components/DateBarChart";
 import {getAllReportsAfterDatesAndGender, getAllAveragesAfterGender, medianFromResultsArr} from "../../api/Controller";
-import {type} from "@testing-library/user-event/dist/type";
 import MaleFemaleChart from "../../components/MaleFemaleChart";
 import GenderDistrubutionChart from "../../components/GenderDistrubutionChart";
 import AverageByMonthChart from "../../components/AverageByMonthChart";
@@ -13,7 +11,7 @@ import '../../components/SelectLayout.css';
 import SelectLayout from "../../components/SelectLayout";
 import MedianBarChart from "../../components/MedianBarChart";
 
-function Statistics() {
+function SpecificStat() {
     const [testType, setTestType] = useState('Food Intolerance (80 items)');
     const [testNames, setTestNames] = useState([{name: "Select test"}]);
     const [currentTest, setCurrentTest] = useState('');
@@ -95,4 +93,4 @@ function Statistics() {
     );
 }
 
-export default Statistics;
+export default SpecificStat;

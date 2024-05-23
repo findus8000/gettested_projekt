@@ -1,4 +1,4 @@
-import './NewStatistic.css';
+import './CompareStat.css';
 import DateBarChart from "../../components/NewBarChart";
 import React from "react";
 import { Link } from 'wouter';
@@ -6,7 +6,7 @@ import NewBarChart from "../../components/NewBarChart";
 import CompareCountriesChart from "../../components/CompareCountriesChart";
 import SelectLayout from "../../components/SelectLayout";
 
-function NewStatistic() {
+function CompareStat() {
     return (
         <div id="outer-container">
 
@@ -32,5 +32,5 @@ function NewStatistic() {
     );
 }
 
-export default NewStatistic;
+export default CompareStat;
 
