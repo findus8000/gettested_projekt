@@ -88,19 +88,18 @@ function NewBarChart() {
                 "Postmenopause 3,0-7,5 pg/ml<br />" +
                 "Men 2,1-4,1 pg/ml<br />")
         }
-        else {
-            setReferenceValue("")
-        }
     }, [testName]);
 
     return (
-        <div style={{ width: '100%', overflowX: 'hidden'}}>
-            <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '10px'}}>
-                <button onClick={() => setChartType(chartType === 'bar' ? 'line' : 'bar')}>
-                    Switch to {chartType === 'bar' ? 'Line Chart' : 'Bar Chart'}
-                </button>
+        <div style={{ width: '100%', marginBottom: "10px" }}>
+            <div style={{ marginBottom: '10px'}}>
+                <p>
+                    <button onClick={() => setChartType(chartType === 'bar' ? 'line' : 'bar')}>
+                        Switch to {chartType === 'bar' ? 'Line Chart' : 'Bar Chart'}
+                    </button>
+                </p>
+
                 <label>
-                    Select Test:
                     <select value={testName} onChange={e => setTestName(e.target.value)} style={{width: '200px'}}>
                         <option value="Allergy & Intolerance Test (78 items)">Allergy & Intolerance Test (78 items)
                         </option>
@@ -112,9 +111,9 @@ function NewBarChart() {
                         <option value="Vitamin D Test">Vitamin D</option>
                     </select>
                 </label>
-                <label dangerouslySetInnerHTML={{__html: referenceValue}}/>
+                <p dangerouslySetInnerHTML={{__html: referenceValue}}/>
             </div>
-            <ResizableBox width="100%" height={300} minConstraints={[300, 200]} maxConstraints={[window.innerWidth, 400]}>
+            <ResizableBox width="100%" height={400} minConstraints={[300, 200]} maxConstraints={[window.innerWidth, 400]}>
                 <ResponsiveContainer width="100%" height="100%">
                     {chartType === 'bar' ? (
                         <BarChart data={data} margin={{ top: 5, right: 0, left: 0, bottom: 50 }}>
